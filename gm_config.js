@@ -247,11 +247,9 @@ let GM_config = (function (GM) {
             bodyWrapper = create('div', {id: configId + '_wrapper'});
 
         // Append the style which is our default style plus the user style
-        head.appendChild(
-          create('style', {
-          type: 'text/css',
-          textContent: config.css.basic + config.css.stylish
-        }));
+        GM_addElement(head, "style", {
+            textContent: config.css.basic + config.css.stylish,
+        });
 
         // Add header and title
         bodyWrapper.appendChild(create('div', {
@@ -364,9 +362,7 @@ let GM_config = (function (GM) {
         buildConfigWin(this.frame, this.frame.ownerDocument.getElementsByTagName('head')[0]);
       } else {
         // Create frame
-        this.frame = this.create('iframe', { id: this.id });
-        if (this.frameStyle) this.frame.setAttribute('style', this.frameStyle);
-        document.body.appendChild(this.frame);
+        this.frame = GM_addElement(document.body, 'iframe', { id: this.id, style: this.frameStyle})
 
         // In WebKit src can't be set until it is added to the page
         this.frame.src = '';
