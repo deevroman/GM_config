@@ -337,8 +337,8 @@ let GM_config = (function (GM) {
         )));
 
         body.appendChild(bodyWrapper); // Paint everything to window at once
-        config.center(); // Show and center iframe
-        window.addEventListener('resize', config.center, false); // Center frame on resize
+        config.center(configId); // Show and center iframe
+        window.addEventListener('resize', () => {config.center(configId)}, false); // Center frame on resize
 
         // Call the open() callback function
         config.onOpen(config.frame.contentDocument || config.frame.ownerDocument,
@@ -516,8 +516,8 @@ let GM_config = (function (GM) {
       return A;
     },
 
-    center: function () {
-      let node = this.frame;
+    center: function (frameId) {
+      let node = this.frame ?? document.getElementById(frameId);
       if (!node) return;
       let style = node.style,
           beforeOpacity = style.opacity;
